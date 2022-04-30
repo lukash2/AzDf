@@ -1,0 +1,9 @@
+{
+	"name": "ClassroomDataFactory",
+	"location": "germanywestcentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a98dfcaa-a617-4a70-9073-4b2c690ec540",
+		"tenantId": "46dfa4ef-ded3-4422-8797-cff986f3708c"
+	}
+}
