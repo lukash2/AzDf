@@ -78,7 +78,7 @@
 				"     joinType:'inner',",
 				"     broadcast: 'auto')~> FactJoinTime",
 				"FactJoinTime window(over(Month1),",
-				"     asc(Date1, true),",
+				"     asc(factsales01@Id, true),",
 				"     RunningTotal = sum(Amount)) ~> WindowByMonth",
 				"WindowByMonth sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
