@@ -19,6 +19,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "Aggregate0"
+				},
+				{
+					"dataset": {
+						"referenceName": "adf_aggregate1",
+						"type": "DatasetReference"
+					},
+					"name": "Aggregate1"
 				}
 			],
 			"transformations": [
@@ -52,10 +59,30 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> Aggregate0"
+				"     errorHandlingOption: 'stopOnFirstError') ~> Aggregate0",
+				"DetailsJoinSum sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          fact_id,",
+				"          date_sold,",
+				"          product = Details@product,",
+				"          color,",
+				"          amount = Details@amount,",
+				"          sum_amount = Sum@amount",
+				"     )) ~> Aggregate1"
 			]
 		}
 	}
