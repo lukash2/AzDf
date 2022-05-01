@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select top 1 [Id] from [dimtime_sql] where [year] = 2018",
+							"value": "select top 1 [Id] from [dimtime] where [year] = 2018",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
