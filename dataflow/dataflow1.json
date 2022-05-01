@@ -1,0 +1,30 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "surrogateKey1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1",
+				"source1 filter(ERROR_FUNCTION('')) ~> filter1",
+				"filter1 keyGenerate(output({undefined} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1"
+			]
+		}
+	}
+}

@@ -1,0 +1,81 @@
+{
+	"name": "vfactsales01_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzSql_ClassroomDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "TimeId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "CustId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "PersonName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CityId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "PhoneNo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CityName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RegionId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "RegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProdId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ProdName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Amount",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vFactSales01"
+		}
+	}
+}
