@@ -66,6 +66,53 @@
 					"variableName": "timeIdEnd",
 					"value": "@activity('GetStartId').output.firstRow.EndId"
 				}
+			},
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Set timeIdStart",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set timeIdEnd",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_parameterized_extraction",
+						"type": "DataFlowReference",
+						"parameters": {
+							"timeIdStart": {
+								"value": "'@{variables('timeIdStart')}'",
+								"type": "Expression"
+							},
+							"timeIdEnd": {
+								"value": "'@{variables('timeIdEnd')}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"parameters": {

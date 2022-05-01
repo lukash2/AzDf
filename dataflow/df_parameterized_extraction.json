@@ -1,38 +1,31 @@
 {
-	"name": "dataflow1",
+	"name": "df_parameterized_extraction",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "factsales01_sql",
-						"type": "DatasetReference"
-					},
-					"name": "factsales01sql"
-				},
-				{
-					"dataset": {
 						"referenceName": "dimtime_sql",
 						"type": "DatasetReference"
 					},
 					"name": "dimtimesql"
+				},
+				{
+					"dataset": {
+						"referenceName": "factsales01_sql",
+						"type": "DatasetReference"
+					},
+					"name": "factsales01"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(output(",
-				"          Id as long,",
-				"          TimeId as long,",
-				"          ProdId as long,",
-				"          CustId as long,",
-				"          Amount as decimal(19,4)",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> factsales01sql",
+				"parameters{",
+				"     timeIdStart as string ('1'),",
+				"     timeIdEnd as string ('10')",
+				"}",
 				"source(output(",
 				"          Id as long,",
 				"          Date as date,",
@@ -53,7 +46,19 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> dimtimesql"
+				"     format: 'table') ~> dimtimesql",
+				"source(output(",
+				"          Id as long,",
+				"          TimeId as long,",
+				"          ProdId as long,",
+				"          CustId as long,",
+				"          Amount as decimal(19,4)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: (concat('select * from [dbo].[FactSales01] where [TimeId] between ', $timeIdStart, ' and ', $timeIdEnd )),",
+				"     format: 'query') ~> factsales01"
 			]
 		}
 	}
