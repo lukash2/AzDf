@@ -1,5 +1,5 @@
 {
-	"name": "06_running_total_windowing",
+	"name": "06_parameterization_running_total_windowing",
 	"properties": {
 		"activities": [
 			{
