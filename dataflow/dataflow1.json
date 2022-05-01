@@ -5,25 +5,63 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"name": "source1"
+					"dataset": {
+						"referenceName": "vfactsales01_sql",
+						"type": "DatasetReference"
+					},
+					"name": "vFactSales01Sql"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "adf_factsales01_02",
+						"type": "DatasetReference"
+					},
+					"name": "AdfFactSales2"
+				}
+			],
 			"transformations": [
 				{
-					"name": "filter1"
+					"name": "FilterGER"
 				},
 				{
-					"name": "surrogateKey1"
+					"name": "AssertPhone"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
-				"source1 filter(ERROR_FUNCTION('')) ~> filter1",
-				"filter1 keyGenerate(output({undefined} as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey1"
+				"source(output(",
+				"          Id as long,",
+				"          TimeId as long,",
+				"          Date as date,",
+				"          CustId as long,",
+				"          PersonName as string,",
+				"          CityId as long,",
+				"          PhoneNo as string,",
+				"          CityName as string,",
+				"          RegionId as long,",
+				"          RegionName as string,",
+				"          ProdId as long,",
+				"          ProdName as string,",
+				"          Category as string,",
+				"          Amount as decimal(19,4)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> vFactSales01Sql",
+				"vFactSales01Sql filter(contains(array(\"Berlin\", \"Cologne\", \"Munich\"), CityName)) ~> FilterGER",
+				"FilterGER assert(expectTrue(left(PhoneNo, 3) == '+49', true, 'AreaCodeGER', null, concat('Phone number ', PhoneNo, ' must start with +49'))) ~> AssertPhone",
+				"AssertPhone sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> AdfFactSales2"
 			]
 		}
 	}
