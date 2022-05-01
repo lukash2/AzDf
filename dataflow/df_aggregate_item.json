@@ -1,27 +1,34 @@
 {
-	"name": "df_copy_aggregate2_azblob_to_azsql",
+	"name": "df_aggregate_item",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "aggregate2_csv",
+						"referenceName": "aggregate2_sql",
 						"type": "DatasetReference"
 					},
-					"name": "aggregate2csv"
+					"name": "Details"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "aggregate2_sql",
+						"referenceName": "adf_aggregate0",
 						"type": "DatasetReference"
 					},
-					"name": "aggregate2sql"
+					"name": "Aggregate0"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "Sum"
+				},
+				{
+					"name": "DetailsJoinSum"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          fact_id as short,",
@@ -32,25 +39,23 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> aggregate2csv",
-				"aggregate2csv sink(allowSchemaDrift: true,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Details",
+				"Details aggregate(groupBy(product),",
+				"     amount = sum(amount)) ~> Sum",
+				"Sum, Details join(Sum@product == Details@product,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> DetailsJoinSum",
+				"Sum sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          fact_id,",
-				"          date_sold,",
-				"          product,",
-				"          color,",
-				"          amount",
-				"     )) ~> aggregate2sql"
+				"     errorHandlingOption: 'stopOnFirstError') ~> Aggregate0"
 			]
 		}
 	}

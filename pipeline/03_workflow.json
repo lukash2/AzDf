@@ -16,9 +16,36 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "copy_azblob_to_azsql",
+						"referenceName": "df_copy_aggregate2_azblob_to_azsql",
 						"type": "DataFlowReference"
 					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "aggregate_item",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "copy_azblob_to_azsql",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
