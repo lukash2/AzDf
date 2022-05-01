@@ -1,0 +1,43 @@
+{
+	"name": "df_running_total",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "aggregate2_sql",
+						"type": "DatasetReference"
+					},
+					"name": "Current"
+				},
+				{
+					"dataset": {
+						"referenceName": "aggregate2_sql",
+						"type": "DatasetReference"
+					},
+					"name": "History"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "CurrentJoinHistory"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Current",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> History",
+				"Current, History join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> CurrentJoinHistory"
+			]
+		}
+	}
+}

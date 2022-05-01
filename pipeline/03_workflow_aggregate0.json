@@ -1,5 +1,5 @@
 {
-	"name": "03_workflow_aggregate",
+	"name": "03_workflow_aggregate0",
 	"properties": {
 		"activities": [
 			{
@@ -47,7 +47,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_aggregate_item",
+						"referenceName": "df_aggregate_item0",
 						"type": "DataFlowReference"
 					},
 					"compute": {
