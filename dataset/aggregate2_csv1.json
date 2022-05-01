@@ -15,6 +15,7 @@
 				"container": "adf"
 			},
 			"columnDelimiter": ",",
+			"encodingName": "UTF-16LE",
 			"escapeChar": "\\",
 			"quoteChar": "\""
 		},
