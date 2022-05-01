@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "aggregate2_csv",
+						"referenceName": "aggregate2_csv0",
 						"type": "DatasetReference"
 					},
 					"name": "aggregate2csv"
