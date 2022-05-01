@@ -1,13 +1,38 @@
 {
-	"name": "dataflow1",
+	"name": "copy_azblob_to_azsql",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "aggregate2_csv",
+						"type": "DatasetReference"
+					},
+					"name": "aggregate2csv"
+				}
+			],
+			"sinks": [
+				{
+					"name": "aggregate2sql"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          fact_id as short,",
+				"          date_sold as date,",
+				"          product as string,",
+				"          color as string,",
+				"          amount as float",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> aggregate2csv",
+				"aggregate2csv sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> aggregate2sql"
 			]
 		}
 	}

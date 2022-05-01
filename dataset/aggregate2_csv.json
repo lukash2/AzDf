@@ -1,0 +1,30 @@
+{
+	"name": "aggregate2_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ClassroomDB - aggregate2.txt",
+				"folderPath": "Input",
+				"container": "adf"
+			},
+			"columnDelimiter": ";",
+			"rowDelimiter": "\n",
+			"encodingName": "UTF-16LE",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
