@@ -9,18 +9,45 @@
 						"referenceName": "aggregate2_csv1",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "aggregate2csv1"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "adf_aggregate3",
+						"type": "DatasetReference"
+					},
+					"name": "AdfAggregate3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SplitColumns"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
-				"          Column_1 as string",
+				"          {_col0_} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1"
+				"     ignoreNoFilesFound: false,",
+				"     skipLines: 1) ~> aggregate2csv1",
+				"aggregate2csv1 derive(fact_id = split({_col0_}, \";\")[1],",
+				"          date_sold = toDate(split({_col0_}, \";\")[2], \"yyyy-MM-dd\"),",
+				"          product = split({_col0_}, \";\")[3],",
+				"          color = split({_col0_}, \";\")[4]) ~> SplitColumns",
+				"SplitColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> AdfAggregate3"
 			]
 		}
 	}

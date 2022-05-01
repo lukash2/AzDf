@@ -15,8 +15,10 @@
 				"container": "adf"
 			},
 			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
 			"encodingName": "UTF-16LE",
 			"escapeChar": "\\",
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": [
