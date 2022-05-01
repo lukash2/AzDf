@@ -9,13 +9,6 @@
 						"referenceName": "aggregate2_sql",
 						"type": "DatasetReference"
 					},
-					"name": "Current"
-				},
-				{
-					"dataset": {
-						"referenceName": "aggregate2_sql",
-						"type": "DatasetReference"
-					},
 					"name": "History"
 				}
 			],
@@ -23,20 +16,37 @@
 			"transformations": [
 				{
 					"name": "CurrentJoinHistory"
+				},
+				{
+					"name": "SelectColumnsHistory"
+				},
+				{
+					"name": "SelectColumnsCurrent"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> Current",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          fact_id as short,",
+				"          date_sold as date,",
+				"          product as string,",
+				"          color as string,",
+				"          amount as float",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> History",
-				"Current, History join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"SelectColumnsCurrent, SelectColumnsHistory join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
-				"     broadcast: 'auto')~> CurrentJoinHistory"
+				"     broadcast: 'auto')~> CurrentJoinHistory",
+				"History select(mapColumn(",
+				"          fact_id_history = fact_id,",
+				"          amount_history = amount",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumnsHistory",
+				" select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumnsCurrent"
 			]
 		}
 	}
