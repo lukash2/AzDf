@@ -98,11 +98,11 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"timeIdStart": {
-								"value": "'@{variables('timeIdStart')}'",
+								"value": "@variables('timeIdStart')",
 								"type": "Expression"
 							},
 							"timeIdEnd": {
-								"value": "'@{variables('timeIdEnd')}'",
+								"value": "@variables('timeIdEnd')",
 								"type": "Expression"
 							}
 						}
