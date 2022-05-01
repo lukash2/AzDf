@@ -1,0 +1,60 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "factsales01_sql",
+						"type": "DatasetReference"
+					},
+					"name": "factsales01sql"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimtime_sql",
+						"type": "DatasetReference"
+					},
+					"name": "dimtimesql"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Id as long,",
+				"          TimeId as long,",
+				"          ProdId as long,",
+				"          CustId as long,",
+				"          Amount as decimal(19,4)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> factsales01sql",
+				"source(output(",
+				"          Id as long,",
+				"          Date as date,",
+				"          Date0 as integer,",
+				"          Date1 as string,",
+				"          DateFullName as string,",
+				"          DayNumber as integer,",
+				"          WeekdayName as string,",
+				"          Month0 as integer,",
+				"          Month1 as string,",
+				"          MonthNumber as integer,",
+				"          MonthName as string,",
+				"          CW_US as integer,",
+				"          CW_ISO as integer,",
+				"          IsWorkingDay as boolean,",
+				"          Year as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> dimtimesql"
+			]
+		}
+	}
+}

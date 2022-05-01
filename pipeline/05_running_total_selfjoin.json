@@ -1,5 +1,5 @@
 {
-	"name": "04_running_total",
+	"name": "05_running_total_selfjoin",
 	"properties": {
 		"activities": [
 			{

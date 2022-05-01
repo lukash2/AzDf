@@ -1,0 +1,85 @@
+{
+	"name": "06_running_total_windowing",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetStartId",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select top 1 [Id] from [dimtime_sql] where [year] = 2018",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "dimtime_sql",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set timeIdStart",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "GetStartId",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "timeIdStart",
+					"value": {
+						"value": "@activity('GetStartId').output.firstRow.Id ",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
+			}
+		],
+		"parameters": {
+			"ParamYear": {
+				"type": "int",
+				"defaultValue": 2018
+			}
+		},
+		"variables": {
+			"timeIdStart": {
+				"type": "String",
+				"defaultValue": "-1"
+			},
+			"timeIdEnd": {
+				"type": "String",
+				"defaultValue": "-1"
+			}
+		},
+		"annotations": []
+	}
+}
