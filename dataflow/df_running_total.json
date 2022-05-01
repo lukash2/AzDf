@@ -67,7 +67,7 @@
 				"     format: 'table') ~> Current",
 				"SelectColumnsCurrent, SelectColumnsHistory join(fact_id_current >= fact_id_history,",
 				"     joinType:'inner',",
-				"     broadcast: 'auto')~> CurrentJoinHistory",
+				"     broadcast: 'both')~> CurrentJoinHistory",
 				"History select(mapColumn(",
 				"          fact_id_history = fact_id,",
 				"          amount_history = amount",
@@ -99,7 +99,15 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> AdrAggregat2"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          fact_id = fact_id_current,",
+				"          date_sold = date_sold_current,",
+				"          product = product_current,",
+				"          color = color_current,",
+				"          amount = amount_current,",
+				"          running_total",
+				"     )) ~> AdrAggregat2"
 			]
 		}
 	}
