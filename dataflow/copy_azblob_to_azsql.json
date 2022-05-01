@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "aggregate2_sql",
+						"type": "DatasetReference"
+					},
 					"name": "aggregate2sql"
 				}
 			],
@@ -31,8 +35,22 @@
 				"     ignoreNoFilesFound: false) ~> aggregate2csv",
 				"aggregate2csv sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> aggregate2sql"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          fact_id,",
+				"          date_sold,",
+				"          product,",
+				"          color,",
+				"          amount",
+				"     )) ~> aggregate2sql"
 			]
 		}
 	}
