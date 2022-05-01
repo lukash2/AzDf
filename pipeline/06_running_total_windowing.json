@@ -64,7 +64,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "timeIdEnd",
-					"value": "@activity('GetStartId').output.firstRow.EndId"
+					"value": "'10'"
 				}
 			},
 			{

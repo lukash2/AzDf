@@ -71,7 +71,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: (concat('select * from [dbo].[FactSales01] where [TimeId] between ', $timeIdStart, ' and ', $timeIdEnd )),",
 				"     format: 'query') ~> factsales01",
-				"dimtimesql, factsales01 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"dimtimesql, factsales01 join(dimtimesql@Id == TimeId,",
 				"     joinType:'inner',",
 				"     broadcast: 'auto')~> FactJoinTime",
 				"FactJoinTime sink(allowSchemaDrift: true,",
