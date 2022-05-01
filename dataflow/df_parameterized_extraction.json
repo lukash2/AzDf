@@ -19,8 +19,20 @@
 					"name": "factsales01"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "adf_aggregate4",
+						"type": "DatasetReference"
+					},
+					"name": "AdfAggregate4"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FactJoinTime"
+				}
+			],
 			"scriptLines": [
 				"parameters{",
 				"     timeIdStart as string ('1'),",
@@ -58,7 +70,21 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: (concat('select * from [dbo].[FactSales01] where [TimeId] between ', $timeIdStart, ' and ', $timeIdEnd )),",
-				"     format: 'query') ~> factsales01"
+				"     format: 'query') ~> factsales01",
+				"dimtimesql, factsales01 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> FactJoinTime",
+				"FactJoinTime sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> AdfAggregate4"
 			]
 		}
 	}
