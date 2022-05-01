@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select top 1 \n    [StartId] = cast ( min ( [Id] ) as nvarchar(50) ), \n    [EndId]   = cast ( max ( [Id] ) as nvarchar(50) )\nfrom [dbo].[dimTime] \nwhere [Year] = @{pipeline().parameters.ParamYear}",
+							"value": "select top 1 \n    [StartId] = cast ( min ( [Id] ) as nvarchar(50) ), \n    [EndId]   = cast ( max ( [Id] ) as nvarchar(50) )\nfrom [dbo].[dimTime] \nwhere \n    [Date1] >= @{pipeline().parameters.ParamDateStart} \n    and [Date1] <= @{pipeline().parameters.ParamDateEnd} \n    ",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -64,7 +64,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "timeIdEnd",
-					"value": "'10'"
+					"value": "@activity('GetStartId').output.firstRow.EndId"
 				}
 			},
 			{
@@ -97,12 +97,12 @@
 						"referenceName": "df_parameterized_extraction",
 						"type": "DataFlowReference",
 						"parameters": {
-							"timeIdStart": {
-								"value": "@variables('timeIdStart')",
+							"ParamTimeIdStart": {
+								"value": "'@{variables('timeIdStart')}'",
 								"type": "Expression"
 							},
-							"timeIdEnd": {
-								"value": "@variables('timeIdEnd')",
+							"ParamTimeIdEnd": {
+								"value": "'@{variables('timeIdEnd')}'",
 								"type": "Expression"
 							}
 						}
@@ -116,19 +116,23 @@
 			}
 		],
 		"parameters": {
-			"ParamYear": {
+			"ParamDateStart": {
 				"type": "string",
-				"defaultValue": "2020"
+				"defaultValue": "'2020-01-01'"
+			},
+			"ParamDateEnd": {
+				"type": "string",
+				"defaultValue": "'2020-06-30'"
 			}
 		},
 		"variables": {
 			"timeIdStart": {
 				"type": "String",
-				"defaultValue": "-1"
+				"defaultValue": "'-1'"
 			},
 			"timeIdEnd": {
 				"type": "String",
-				"defaultValue": "-1"
+				"defaultValue": "'-1'"
 			}
 		},
 		"annotations": []

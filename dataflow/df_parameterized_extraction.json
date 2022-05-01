@@ -31,12 +31,15 @@
 			"transformations": [
 				{
 					"name": "FactJoinTime"
+				},
+				{
+					"name": "WindowByMonth"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     timeIdStart as string ('1'),",
-				"     timeIdEnd as string ('10')",
+				"     ParamTimeIdStart as string ('1'),",
+				"     ParamTimeIdEnd as string ('10')",
 				"}",
 				"source(output(",
 				"          Id as long,",
@@ -69,12 +72,15 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: (concat('select * from [dbo].[FactSales01] where [TimeId] between ', $timeIdStart, ' and ', $timeIdEnd )),",
+				"     query: (concat('select * from [dbo].[FactSales01] where [TimeId] between ', $ParamTimeIdStart, ' and ', $ParamTimeIdEnd )),",
 				"     format: 'query') ~> factsales01",
 				"dimtimesql, factsales01 join(dimtimesql@Id == TimeId,",
 				"     joinType:'inner',",
 				"     broadcast: 'auto')~> FactJoinTime",
-				"FactJoinTime sink(allowSchemaDrift: true,",
+				"FactJoinTime window(over(Month1),",
+				"     asc(Date1, true),",
+				"     RunningTotal = sum(Amount)) ~> WindowByMonth",
+				"WindowByMonth sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
