@@ -44,10 +44,18 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> AdfAggregate3"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          unsplitted_row = {_col0_},",
+				"          fact_id,",
+				"          date_sold,",
+				"          product,",
+				"          color",
+				"     )) ~> AdfAggregate3"
 			]
 		}
 	}
