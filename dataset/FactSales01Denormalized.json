@@ -1,0 +1,16 @@
+{
+	"name": "FactSales01Denormalized",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzSql_ClassroomDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FactSales01Denormalized"
+		}
+	}
+}

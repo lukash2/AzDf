@@ -1,0 +1,85 @@
+{
+	"name": "dimtime_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzSql_ClassroomDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "Date0",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Date1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DateFullName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DayNumber",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WeekdayName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month0",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Month1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MonthNumber",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MonthName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CW_US",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CW_ISO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsWorkingDay",
+				"type": "bit"
+			},
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dimTime"
+		}
+	}
+}

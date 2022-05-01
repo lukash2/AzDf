@@ -1,0 +1,150 @@
+{
+	"name": "df_join_derive_column",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dimcity_sql",
+						"type": "DatasetReference"
+					},
+					"name": "dimCity"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimperson_sql",
+						"type": "DatasetReference"
+					},
+					"name": "dimPerson"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimtime_sql",
+						"type": "DatasetReference"
+					},
+					"name": "dimTime"
+				},
+				{
+					"dataset": {
+						"referenceName": "factsales01_sql",
+						"type": "DatasetReference"
+					},
+					"name": "factsales01"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FactSales01Denormalized",
+						"type": "DatasetReference"
+					},
+					"name": "FactSales01Denormalized"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FactJoinTime"
+				},
+				{
+					"name": "FactJoinTimeJoinPerson"
+				},
+				{
+					"name": "LookupCity"
+				},
+				{
+					"name": "DerivedColumn"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Id as long,",
+				"          CityName as string,",
+				"          RegionId as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> dimCity",
+				"source(output(",
+				"          Id as long,",
+				"          PersonName as string,",
+				"          DateOfBirth as date,",
+				"          Gender as string,",
+				"          CityId as long,",
+				"          PhoneNo as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> dimPerson",
+				"source(output(",
+				"          Id as long,",
+				"          Date as date,",
+				"          Date0 as integer,",
+				"          Date1 as string,",
+				"          DateFullName as string,",
+				"          DayNumber as integer,",
+				"          WeekdayName as string,",
+				"          Month0 as integer,",
+				"          Month1 as string,",
+				"          MonthNumber as integer,",
+				"          MonthName as string,",
+				"          CW_US as integer,",
+				"          CW_ISO as integer,",
+				"          IsWorkingDay as boolean,",
+				"          Year as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> dimTime",
+				"source(output(",
+				"          Id as long,",
+				"          TimeId as long,",
+				"          ProdId as long,",
+				"          CustId as long,",
+				"          Amount as decimal(19,4)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> factsales01",
+				"dimTime, factsales01 join(dimTime@Id == TimeId,",
+				"     joinType:'right',",
+				"     broadcast: 'auto')~> FactJoinTime",
+				"FactJoinTime, dimPerson join(CustId == dimPerson@Id,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> FactJoinTimeJoinPerson",
+				"FactJoinTimeJoinPerson, dimCity lookup(CityId == dimCity@Id,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> LookupCity",
+				"LookupCity derive(Customer = concat(PersonName, \" (\", CityName, \")\"),",
+				"          PhoneXXX = concat(substring(PhoneNo,0,10), \"XXXXXXX\"),",
+				"          MonthOfBirth = toString(DateOfBirth, \"yyyy-MM\")) ~> DerivedColumn",
+				"DerivedColumn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Date,",
+				"          Year,",
+				"          Id = factsales01@Id,",
+				"          Amount,",
+				"          Gender,",
+				"          Customer,",
+				"          PhoneXXX,",
+				"          MonthOfBirth",
+				"     )) ~> FactSales01Denormalized"
+			]
+		}
+	}
+}

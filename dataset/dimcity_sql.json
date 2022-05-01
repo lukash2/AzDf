@@ -1,0 +1,31 @@
+{
+	"name": "dimcity_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzSql_ClassroomDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "CityName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RegionId",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dimCity"
+		}
+	}
+}
