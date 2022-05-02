@@ -27,6 +27,14 @@
 				}
 			}
 		],
+		"variables": {
+			"citiesGER": {
+				"type": "Array",
+				"defaultValue": [
+					"['Berlin','Cologne','Munich']"
+				]
+			}
+		},
 		"annotations": []
 	}
 }

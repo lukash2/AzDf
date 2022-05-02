@@ -30,6 +30,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     parameter1 as string[] (['Berlin','Cologne','Munich'])",
+				"}",
 				"source(output(",
 				"          Id as long,",
 				"          TimeId as long,",
@@ -50,8 +53,9 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> vFactSales01Sql",
-				"vFactSales01Sql filter(contains(array('Berlin', 'Cologne', 'Munich'), item == CityName)) ~> FilterGER",
-				"FilterGER assert(expectTrue(left(PhoneNo, 3) == '+49', true, 'AreaCodeGER', null, concat('Phone number ', PhoneNo, ' must start with +49'))) ~> AssertPhone",
+				"vFactSales01Sql filter(contains(array('Berlin', 'Cologne', 'Munich', 'Paris'), #item == CityName)) ~> FilterGER",
+				"FilterGER assert(expectTrue(left(PhoneNo, 3) == '+49', true, 'AreaCodeGER', null, concat('Phone number ', PhoneNo, ' must start with +49')),",
+				"     abort: true) ~> AssertPhone",
 				"AssertPhone sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
