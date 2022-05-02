@@ -82,7 +82,8 @@
 			"FileList": {
 				"type": "Array",
 				"defaultValue": [
-					"['ClassroomDB - factsales02_2019.txt', 'ClassroomDB - factsales02_2020.txt']"
+					"ClassroomDB - factsales02_2019.txt",
+					"ClassroomDB - factsales02_2020.txt"
 				]
 			}
 		},
