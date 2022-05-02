@@ -1,0 +1,28 @@
+{
+	"name": "generate_time_perdiods",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "dimperson_sql",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  dimperson_sql",
+					"dataset": {
+						"referenceName": "dimperson_sql",
+						"type": "DatasetReference"
+					}
+				},
+				{
+					"name": "dimcity_sql",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  dimcity_sql",
+					"dataset": {
+						"referenceName": "dimcity_sql",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared dimperson_sql = let AdfDoc = Sql.Database(\"n-dimensions.database.windows.net\", \"ClassroomDB\", [CreateNavigationProperties = false]), InputTable = AdfDoc{[Schema=\"dbo\",Item=\"dimPerson\"]}[Data] in InputTable;\r\nshared dimcity_sql = let AdfDoc = Sql.Database(\"n-dimensions.database.windows.net\", \"ClassroomDB\", [CreateNavigationProperties = false]), InputTable = AdfDoc{[Schema=\"dbo\",Item=\"dimCity\"]}[Data] in InputTable;\r\nshared PersonCity = let \n    person0 = dimperson_sql, \n    city0 = dimcity_sql, \n    personCity0 = \n        Table.Join (\n            person0, \n            \"CityId\", \n            city0, \n            \"Id\" )\nin \n    personCity0;\r\n",
+			"documentLocale": "en-us"
+		}
+	}
+}
