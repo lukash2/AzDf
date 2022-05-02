@@ -1,5 +1,5 @@
 {
-	"name": "generate_time_perdiods",
+	"name": "pq_person_join_city",
 	"properties": {
 		"type": "WranglingDataFlow",
 		"typeProperties": {
