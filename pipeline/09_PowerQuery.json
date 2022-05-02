@@ -1,5 +1,5 @@
 {
-	"name": "09_",
+	"name": "09_PowerQuery",
 	"properties": {
 		"activities": [
 			{
@@ -25,15 +25,15 @@
 					},
 					"queries": [
 						{
-							"queryName": "PersonCity",
+							"queryName": "UserQuery",
 							"dataflowSinks": [
 								{
-									"name": "PersonCityadfpqpersoncity",
+									"name": "UserQueryadfpqpersoncity",
 									"dataset": {
 										"referenceName": "adf_pq_person_city",
 										"type": "DatasetReference"
 									},
-									"script": "sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PersonCityadfpqpersoncity"
+									"script": "sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> UserQueryadfpqpersoncity"
 								}
 							]
 						}
