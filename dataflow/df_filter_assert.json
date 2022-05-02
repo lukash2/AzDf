@@ -50,7 +50,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> vFactSales01Sql",
-				"vFactSales01Sql filter(contains(array(\"Berlin\", \"Cologne\", \"Munich\"), CityName)) ~> FilterGER",
+				"vFactSales01Sql filter(contains(array('Berlin', 'Cologne', 'Munich'), item == CityName)) ~> FilterGER",
 				"FilterGER assert(expectTrue(left(PhoneNo, 3) == '+49', true, 'AreaCodeGER', null, concat('Phone number ', PhoneNo, ' must start with +49'))) ~> AssertPhone",
 				"AssertPhone sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
