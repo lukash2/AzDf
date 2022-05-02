@@ -17,7 +17,13 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_filter_assert",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"ParamCitiesGER": {
+								"value": "@variables('citiesGER')",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
@@ -31,7 +37,10 @@
 			"citiesGER": {
 				"type": "Array",
 				"defaultValue": [
-					"['Berlin','Cologne','Munich']"
+					"Berlin",
+					"Cologne",
+					"Munich",
+					"Paris"
 				]
 			}
 		},
