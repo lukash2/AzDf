@@ -1,0 +1,16 @@
+{
+	"name": "adf_pq_person_city",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzSql_ClassroomDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "adf_pq_person_city"
+		}
+	}
+}
