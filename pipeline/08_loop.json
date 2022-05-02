@@ -1,0 +1,29 @@
+{
+	"name": "08_loop",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach File",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('FileList')",
+						"type": "Expression"
+					},
+					"isSequential": true
+				}
+			}
+		],
+		"variables": {
+			"FileList": {
+				"type": "Array",
+				"defaultValue": [
+					"['ClassroomDB - factsales02_2019.txt', 'ClassroomDB - factsales02_2020.txt']"
+				]
+			}
+		},
+		"annotations": []
+	}
+}
