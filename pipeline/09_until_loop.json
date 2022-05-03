@@ -130,16 +130,7 @@
 		"variables": {
 			"orders": {
 				"type": "Array",
-				"defaultValue": [
-					[
-						"Paul",
-						"20"
-					],
-					[
-						"Judy",
-						"35"
-					]
-				]
+				"defaultValue": []
 			},
 			"stopLoop": {
 				"type": "Boolean",
