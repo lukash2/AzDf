@@ -1,5 +1,5 @@
 {
-	"name": "11_until_loop_main",
+	"name": "09_until_loop",
 	"properties": {
 		"activities": [
 			{
@@ -122,7 +122,7 @@
 							}
 						}
 					],
-					"timeout": "0.00:01:00"
+					"timeout": "0.00:02:00"
 				}
 			}
 		],
