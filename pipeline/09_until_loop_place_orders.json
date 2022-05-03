@@ -18,9 +18,17 @@
 					"storedProcedureName": "[dbo].[PlaceOrders]",
 					"storedProcedureParameters": {
 						"Customer": {
+							"value": {
+								"value": "@substring(guid(),0,8)",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"TicketCount": {
+							"value": {
+								"value": "@rand(1,40)",
+								"type": "Expression"
+							},
 							"type": "Int32"
 						}
 					}
