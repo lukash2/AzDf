@@ -1,5 +1,5 @@
 {
-	"name": "09_until_loop",
+	"name": "09_until_loop_place_orders",
 	"properties": {
 		"activities": [
 			{
@@ -18,7 +18,7 @@
 					"storedProcedureName": "[dbo].[PlaceOrders]",
 					"storedProcedureParameters": {
 						"Customer": {
-							"value": "'John'",
+							"value": "John",
 							"type": "String"
 						},
 						"TicketCount": {
@@ -31,32 +31,16 @@
 					"referenceName": "AzSql_ClassroomDB",
 					"type": "LinkedServiceReference"
 				}
-			},
-			{
-				"name": "Set remaining  tickets",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Place Orders",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "remainingTickets",
-					"value": {
-						"value": "@string(activity('Place Orders').output)",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"variables": {
 			"remainingTickets": {
 				"type": "String",
 				"defaultValue": "'-1'"
+			},
+			"proceed": {
+				"type": "Boolean",
+				"defaultValue": false
 			}
 		},
 		"annotations": []
