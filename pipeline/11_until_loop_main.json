@@ -37,7 +37,7 @@
 									},
 									"TicketCount": {
 										"value": {
-											"value": "@rand(1,40)",
+											"value": "@rand(5,40)",
 											"type": "Expression"
 										},
 										"type": "Int32"
@@ -95,6 +95,26 @@
 								"dataset": {
 									"referenceName": "ProcessOrders",
 									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Set remaining tickets",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Process Orders",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "remainingTickets",
+								"value": {
+									"value": "@string(activity('Process Orders').output.firstRow.remaining_tickets)",
+									"type": "Expression"
 								}
 							}
 						}
