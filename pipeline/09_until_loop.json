@@ -173,7 +173,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "@replace('insert into batch_info values ( {0} );', '{0}', join(variables('processInfo'),','))",
+								"value": "@replace('insert into batch_info values ( {0} );', '{0}', \nconcat('''',join(variables('processInfo'),','),''''))",
 								"type": "Expression"
 							}
 						}
