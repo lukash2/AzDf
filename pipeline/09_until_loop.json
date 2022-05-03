@@ -30,7 +30,7 @@
 								"storedProcedureParameters": {
 									"Customer": {
 										"value": {
-											"value": "@substring(guid(),0,5)",
+											"value": "@substring(string(guid()), 0, 5)",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -136,7 +136,7 @@
 							"typeProperties": {
 								"variableName": "orders",
 								"value": {
-									"value": "@string(activity('Place Orders').output.firstRow.Customer)",
+									"value": "\"test\"",
 									"type": "Expression"
 								}
 							}
