@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"variableName": "remainingTickets",
 					"value": {
-						"value": "@string(activity('Process Orders').output.remaining_tickets)",
+						"value": "@string(activity('Process Orders').output.firstRow.remaining_tickets)",
 						"type": "Expression"
 					}
 				}
@@ -37,7 +37,7 @@
 				"typeProperties": {
 					"variableName": "proceed",
 					"value": {
-						"value": "@if(greaterOrEquals(int(activity('Process Orders').output[0]),1),true,false)",
+						"value": "@if(greaterOrEquals(int(activity('Process Orders').output.firstRow.remaining_tickets),1),true,false)",
 						"type": "Expression"
 					}
 				}

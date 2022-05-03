@@ -18,11 +18,17 @@
 					"storedProcedureName": "[dbo].[PlaceOrders]",
 					"storedProcedureParameters": {
 						"Customer": {
-							"value": "John",
+							"value": {
+								"value": "@variables('orders')[1][0]",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"TicketCount": {
-							"value": "10",
+							"value": {
+								"value": "@variables('orders')[1][1]",
+								"type": "Expression"
+							},
 							"type": "Int32"
 						}
 					}
@@ -34,13 +40,18 @@
 			}
 		],
 		"variables": {
-			"remainingTickets": {
-				"type": "String",
-				"defaultValue": "'-1'"
-			},
-			"proceed": {
-				"type": "Boolean",
-				"defaultValue": false
+			"orders": {
+				"type": "Array",
+				"defaultValue": [
+					[
+						"Paul",
+						"20"
+					],
+					[
+						"Judy",
+						"35"
+					]
+				]
 			}
 		},
 		"annotations": []
