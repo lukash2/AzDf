@@ -135,7 +135,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "orders",
-								"value": "\"test\""
+								"value": {
+									"value": "@activity('Place Orders').output.firstRow.Customer",
+									"type": "Expression"
+								}
 							}
 						}
 					],
