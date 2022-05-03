@@ -134,21 +134,56 @@
 							],
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "orders",
+								"variableName": "processInfo",
 								"value": {
-									"value": "\"test\"",
+									"value": "@string(activity('Process Orders').output.firstRow.remaining_tickets)",
 									"type": "Expression"
 								}
 							}
 						}
 					],
-					"timeout": "0.00:02:00"
+					"timeout": "0.00:05:00"
+				}
+			},
+			{
+				"name": "Record transaction info",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Place and process tickets until all tickets are sold",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzSql_ClassroomDB",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "@replace('insert into batch_info values ( {0} );', '{0}', join(variables('processInfo'),','))",
+								"type": "Expression"
+							}
+						}
+					]
 				}
 			}
 		],
 		"concurrency": 1,
 		"variables": {
-			"orders": {
+			"processInfo": {
 				"type": "Array",
 				"defaultValue": []
 			},
