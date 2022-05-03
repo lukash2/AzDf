@@ -63,7 +63,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "stopLoop",
-								"value": true
+								"value": {
+									"value": "@if(less(int(activity('Process Orders').output.firstRow.remaining_tickets),1),true,false)\n\n",
+									"type": "Expression"
+								}
 							}
 						},
 						{
@@ -119,7 +122,7 @@
 							}
 						}
 					],
-					"timeout": "0.00:00:30"
+					"timeout": "0.00:01:00"
 				}
 			}
 		],
