@@ -20,7 +20,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "pipeline1",
+									"referenceName": "09_until_loop_place_orders",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
