@@ -54,7 +54,7 @@
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Place Orders",
+									"activity": "Process Orders",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -64,6 +64,38 @@
 							"typeProperties": {
 								"variableName": "stopLoop",
 								"value": true
+							}
+						},
+						{
+							"name": "Process Orders",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Place Orders",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderStoredProcedureName": "[dbo].[ProcessOrders]",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "ProcessOrders",
+									"type": "DatasetReference"
+								}
 							}
 						}
 					],
@@ -89,6 +121,10 @@
 			"stopLoop": {
 				"type": "Boolean",
 				"defaultValue": false
+			},
+			"remainingTickets": {
+				"type": "String",
+				"defaultValue": "-1"
 			}
 		},
 		"annotations": []
