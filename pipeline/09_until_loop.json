@@ -120,6 +120,23 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Append orders",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "Process Orders",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "orders",
+								"value": "\"test\""
+							}
 						}
 					],
 					"timeout": "0.00:02:00"
