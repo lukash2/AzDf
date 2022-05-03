@@ -50,48 +50,8 @@
 							}
 						},
 						{
-							"name": "Set remaining  tickets",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Process Orders",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "remainingTickets",
-								"value": {
-									"value": "@string(activity('Process Orders').output.firstRow.remaining_tickets)",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "Set stop loop",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Process Orders",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "stopLoop",
-								"value": {
-									"value": "@if(greaterOrEquals(int(activity('Process Orders').output.firstRow.remaining_tickets),1),false,true)",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Process Orders",
-							"type": "Lookup",
 							"dependsOn": [
 								{
 									"activity": "Place Orders",
@@ -100,25 +60,10 @@
 									]
 								}
 							],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
 							"userProperties": [],
 							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderStoredProcedureName": "[dbo].[ProcessOrders]",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "ProcessOrders",
-									"type": "DatasetReference"
-								}
+								"variableName": "stopLoop",
+								"value": true
 							}
 						}
 					],
@@ -126,6 +71,7 @@
 				}
 			}
 		],
+		"concurrency": 1,
 		"variables": {
 			"orders": {
 				"type": "Array",
@@ -143,10 +89,6 @@
 			"stopLoop": {
 				"type": "Boolean",
 				"defaultValue": false
-			},
-			"loopCounter": {
-				"type": "String",
-				"defaultValue": "0"
 			}
 		},
 		"annotations": []
