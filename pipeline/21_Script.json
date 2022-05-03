@@ -1,0 +1,45 @@
+{
+	"name": "21_Script",
+	"properties": {
+		"activities": [
+			{
+				"name": "Record batch info",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzSql_ClassroomDB",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "@replace('insert into batch_info values ( {0} )', '{0}', \nconcat('''',join(variables('listVar'),'; '),''''))",
+								"type": "Expression"
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"listVar": {
+				"type": "Array",
+				"defaultValue": [
+					"Judy",
+					"Paul"
+				]
+			}
+		},
+		"annotations": []
+	}
+}
